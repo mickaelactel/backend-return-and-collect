@@ -9,7 +9,6 @@ router.post('/signup', (req, res) => {
   if(!req.body.email || !req.body.password || !req.body.confirmPassword) {
     res.json({result: false, error: "un champ de saisie est vide"})
 
-    const hash = bcrypt.hashSync(req.body.password, 10);
 
   } else {
     const hash = bcrypt.hashSync(req.body.password, 10);
