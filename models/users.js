@@ -7,7 +7,7 @@ const userSchema = mongoose.Schema(
     email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
     phone: { type: String, required: true, match: /^[0-9]{10,15}$/ },
     password: { type: String, required: true },
-    status: {
+    userType: {
       type: String,
       enum: ["PICKER", "SENDER"],
       default: "SENDER",
