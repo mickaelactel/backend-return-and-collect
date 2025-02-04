@@ -14,8 +14,15 @@ router.post('/signup', (req, res) => {
   } else {
     const hash = bcrypt.hashSync(req.body.password, 10);
     const newUser = new User({
+      firstName: req.body.firstName,
+      lastName: req.body.lastName,
       email: req.body.email,
       password: hash,
+      phone: req.body.phone,
+      address: req.body.adress,
+      city: req.body.city,
+      zipcode: req.body.zipcode,
+      usertype: req.body.usertype
     })
     newUser.save().then((newData) => {
       res.json({result: true})
