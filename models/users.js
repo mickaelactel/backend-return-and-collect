@@ -2,10 +2,10 @@ const mongoose = require("mongoose");
 
 const userSchema = mongoose.Schema(
   {
-    firstName: { type: String, required: true },
-    lastName: { type: String, required: true },
+    firstName: { type: String },
+    lastName: { type: String },
     email: { type: String, required: true, unique: true, match: /.+\@.+\..+/ },
-    phone: { type: String, required: true, match: /^[0-9]{10,15}$/ },
+    phone: { type: String, match: /^[0-9]{10,15}$/ },
     password: { type: String, required: true },
     userType: {
       type: String,
