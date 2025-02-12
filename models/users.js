@@ -28,6 +28,12 @@ const userSchema = mongoose.Schema(
       creditCardLastDigits: String, // Quatre derniers chiffres
       creditCardDigitsSecurityDigits: String, // Chiffres derrière la carte
     },
+  
+     //information de paiement picker
+    creditMethod: {
+      iban: String,
+      bic: String,
+    },
 
     // Champs spécifiques aux pickers (null si user_type ≠ picker)
     isAvailable: { type: Boolean, default: false },
