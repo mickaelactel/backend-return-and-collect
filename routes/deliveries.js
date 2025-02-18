@@ -7,6 +7,9 @@ const User = require("../models/User");
 const Delivery = require("../models/deliveries");
 //const bcrypt = require("bcrypt");
 
+
+//Vient modifier le status de l'objet delivery en "Assigned"
+
 router.put("/assign/:id", (req, res) => {
   Delivery.findOne({ pickerId: req.body.pickerId }).then((data) => {
     if (data.status === "LOOKING FOR PICKER") {
@@ -18,10 +21,9 @@ router.put("/assign/:id", (req, res) => {
 });
 
 
+//Avoir la position en direct du livreur. Renvoie position + estimation de la distance et du time remaining.
 
-
-router.get("/pickerInfos", (req, res) => {
-
-
+router.get("/pickerPosition", (req, res) => {
+  
 })
 
