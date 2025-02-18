@@ -53,6 +53,8 @@ const userSchema = mongoose.Schema(
     rating: Number,
     numberOfRatings: Number,
 
+    numberOfDeliveries: Number, 
+
     // Clé étrangères à faire
     reviews: { type: [mongoose.Schema.Types.ObjectId], ref: "reviews" },
     deliveries: { type: [mongoose.Schema.Types.ObjectId], ref: "deliveries" },
