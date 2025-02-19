@@ -71,8 +71,8 @@ router.get("/", function (req, res, next) {
 });
 
 // Récupère les infos du picker désigné.
-router.get("/pickerInfo", function (req, res, next) {
-  User.findOne({ email: req.body.email }).then((data) => {
+router.get("/pickerInfo/:id", function (req, res, next) {
+  User.findOne({ id: req.params.id }).then((data) => {
     if (data) {
       res.json({
         result: true,
