@@ -3,7 +3,7 @@ var router = express.Router();
 
 require("../models/connection");
 
-const User = require("../models/User");
+const User = require("../models/users");
 const Delivery = require("../models/deliveries");
 //const bcrypt = require("bcrypt");
 
@@ -27,3 +27,4 @@ router.get("/pickerPosition", (req, res) => {
   
 })
 
+module.exports = router;

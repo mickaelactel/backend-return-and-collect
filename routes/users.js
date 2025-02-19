@@ -82,7 +82,7 @@ router.get("/pickerInfo/:id", function (req, res, next) {
           rating: data.rating,
           reviews: data.reviews,
           numberOfRatings: data.numberOfRatings,
-          numberOfDeliveries: data.numberOfDeliveries
+          numberOfDeliveries: data.numberOfDeliveries,
         },
       });
     }
