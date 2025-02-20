@@ -28,8 +28,8 @@ const userSchema = mongoose.Schema(
       creditCardLastDigits: String, // Quatre derniers chiffres
       creditCardDigitsSecurityDigits: String, // Chiffres derrière la carte
     },
-  
-     //information de paiement picker
+
+    //information de paiement picker
     creditMethod: {
       iban: String,
       bic: String,
@@ -39,9 +39,9 @@ const userSchema = mongoose.Schema(
     isAvailable: { type: Boolean, default: false },
     usedStorage: { type: Number, default: 0 },
     numberOfPackages: { type: Number, default: 0 },
-    volume: Number,
-    volume_min: Number,
-    volume_max: Number,
+    volume: { type: Number, default: 0 },
+    volume_min: { type: Number, default: 0 },
+    volume_max: { type: Number, default: 999 },
     profiles: [
       {
         name: String,
@@ -50,10 +50,10 @@ const userSchema = mongoose.Schema(
         volume_max: Number,
       },
     ],
-    rating: Number,
-    numberOfRatings: Number,
+    numberOfDeliveries: { type: Number, default: 0 },
 
-    numberOfDeliveries: Number, 
+    rating: { type: Number, default: 5 },
+    numberOfRatings: { type: Number, default: 0 },
 
     // Clé étrangères à faire
     reviews: { type: [mongoose.Schema.Types.ObjectId], ref: "reviews" },
@@ -63,6 +63,21 @@ const userSchema = mongoose.Schema(
   },
   { timestamps: true }
 );
+
+userSchema.pre("save", function (next) {
+  if (this.userType === "SENDER") {
+    this.rating = null;
+    this.numberOfRatings = null;
+    this.isAvailable = null;
+    this.usedStorage = null;
+    this.numberOfPackages = null;
+    this.volume = null;
+    this.volume_min = null;
+    this.volume_max = null;
+    this.numberOfDeliveries = null;
+  }
+  next();
+});
 
 const User = mongoose.model("users", userSchema);
 

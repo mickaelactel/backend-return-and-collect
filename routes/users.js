@@ -5,6 +5,7 @@ require("../models/connection");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
 
+// User signup
 router.post("/signup", (req, res) => {
   if (!req.body.email || !req.body.password || !req.body.confirmPassword) {
     //si un des 3 champs est vide (!) l'erreur de la ligne 11 s'affiche
@@ -73,7 +74,7 @@ router.get("/", function (req, res, next) {
 
 // Récupère les infos du picker désigné.
 router.get("/pickerInfo/:id", function (req, res, next) {
-  User.findOne({ id: req.params.id }).then((data) => {
+  User.findOne({ _id: req.params.id }).then((data) => {
     if (data) {
       res.json({
         result: true,
@@ -85,6 +86,8 @@ router.get("/pickerInfo/:id", function (req, res, next) {
           numberOfDeliveries: data.numberOfDeliveries,
         },
       });
+    } else {
+      res.json({ result: false, message: "Picker not found" });
     }
   });
 });
