@@ -65,12 +65,11 @@ router.put("/", (req, res) => {
   };
 
   User.findOneAndUpdate({ token }, newData).then((data) => {
-    console.log(data);
     if (data == null) {
       res.json({ result: false, error: "User not found" });
     } else {
-      if(newData.password) {
-        newData.password = "hello little hacker"
+      if (newData.password) {
+        newData.password = "hello little hacker";
       }
       res.json({ result: true, modifications: newData });
     }
