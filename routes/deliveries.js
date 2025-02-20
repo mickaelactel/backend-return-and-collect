@@ -35,22 +35,6 @@ router.post("/", (req, res) => {
 });
 
 //Vient modifier le status de l'objet delivery en "Assigned"
-
-router.put("/assign", (req, res) => {
-  const { deliveryId, pickerId } = req.body;
-  Delivery.findOne({ _id: deliveryId }).then((data) => {
-    if (data.status === "LOOKING FOR PICKER") {
-      Delivery.updateOne({ _id: deliveryId }, { status: "ASSIGNED" }).then(
-        () => {
-          res.json({ result: true, message: "Delivery assigned" });
-        }
-      );
-    } else {
-      res.json({ result: false, error: "Delivery already assigned" });
-    }
-  });
-});
-
 router.get("/lookingForPicker", (req, res) => {
   Delivery.find({ status: "LOOKING_FOR_PICKER" }).then((deliveries) => {
     // Pick one delivery with algorithm
