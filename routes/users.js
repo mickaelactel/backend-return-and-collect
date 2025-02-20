@@ -4,6 +4,7 @@ var router = express.Router();
 require("../models/connection");
 const User = require("../models/users");
 const bcrypt = require("bcrypt");
+const uid2 = require("uid2");
 
 // User signup
 router.post("/signup", (req, res) => {
@@ -21,24 +22,57 @@ router.post("/signup", (req, res) => {
   User.findOne({ email: req.body.email }).then((data) => {
     if (data !== null) {
       // si on rentre un email qui est déjà stocker dans la bdd l'erreur de la ligne 22 s'affiche sinon on execute la ligne 25 et on crée un nouvel utilisateur
-      res.json({ result: false, error: "email déjà existant" });
+      res.json({ result: false, error: "Email already used" });
     } else {
       const hash = bcrypt.hashSync(req.body.password, 10);
       const newUser = new User({
         email: req.body.email,
         password: hash,
-        // TODO : Dedicated post to add coordinates
-        // firstName: req.body.firstName,
-        // lastName: req.body.lastName,
-        // phone: req.body.phone,
-        // address: req.body.address,
-        // city: req.body.city,
-        // zipcode: req.body.zipcode,
-        // usertype: req.body.usertype,
+        token: uid2(32),
       });
       newUser.save().then((newData) => {
         res.json({ result: true, user: newData });
       });
+    }
+  });
+});
+
+// User change coordinates
+router.put("/", (req, res) => {
+  const {
+    token,
+    firstName,
+    lastName,
+    phone,
+    address,
+    city,
+    zipcode,
+    usertype,
+    email,
+    password,
+  } = req.body;
+
+  const newData = {
+    firstName,
+    lastName,
+    phone,
+    address,
+    city,
+    zipcode,
+    usertype,
+    email,
+    password: password ? bcrypt.hashSync(password, 10) : undefined,
+  };
+
+  User.findOneAndUpdate({ token }, newData).then((data) => {
+    console.log(data);
+    if (data == null) {
+      res.json({ result: false, error: "User not found" });
+    } else {
+      if(newData.password) {
+        newData.password = "hello little hacker"
+      }
+      res.json({ result: true, modifications: newData });
     }
   });
 });
