@@ -11,7 +11,7 @@ const deliverySchema = mongoose.Schema({
   description: { type: String, required: true },
   volume: { type: String, required: true },
   pickupAddress: { type: String, required: true },
-  deliveryAddress: { type: String, required: true },
+  deliveryAddress: { type: String },
   pickupTime: Date,
   deliveryTime: Date,
   status: {
@@ -25,8 +25,8 @@ const deliverySchema = mongoose.Schema({
     ],
     default: "LOOKING_FOR_PICKER",
   },
-  price: { type: Number, required: true },
-  secretCode: { type: String, required: true },
+  price: { type: Number },
+  secretCode: { type: String },
   createdAt: { type: Date, default: Date.now },
 });
 
