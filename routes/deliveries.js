@@ -47,7 +47,7 @@ router.get("/lookingForPicker", (req, res) => {
   });
 });
 
-router.put("/assign", (req, res) => {
+router.post("/assign", (req, res) => {
   const { deliveryId, token } = req.body;
 
   User.findOne({ token }).then((userData) => {
