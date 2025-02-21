@@ -14,15 +14,6 @@ const reviewSchema = mongoose.Schema(
     },
     rating: { type: Number, required: true, min: 1, max: 5 },
     comment: { type: String },
-    status: {
-      type: String,
-      enum: ["PENDING", "COMPLETED", "FAILED"],
-      default: "PENDING",
-    },
-    issueType: {
-      type: String,
-      enum: ["LOST", "BROKEN", "OTHER"],
-    },
   },
   { timestamps: true }
 );
