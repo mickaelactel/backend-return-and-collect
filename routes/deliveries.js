@@ -84,14 +84,17 @@ router.get("/pickerPosition", (req, res) => {});
 router.get("/:userToken", (req, res) => {
   const { userToken } = req.params;
 
-  User.findOne({ token: userToken }).then((userData) => {
-    if (!userData) {
-      res.json({ result: false, message: "User not found" });
-    } else {
-      const { deliveries } = userData;
-      res.json({ result: true }, deliveries);
-    }
-  });
+  User.findOne({ token: userToken })
+    .populate("deliveries")
+    .then((userData) => {
+      console.log(userData);
+      if (!userData) {
+        res.json({ result: false, message: "User not found" });
+      } else {
+        const { deliveries } = userData;
+        res.json({ result: true, deliveries });
+      }
+    });
 });
 
 module.exports = router;
