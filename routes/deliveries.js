@@ -28,13 +28,21 @@ router.post("/", (req, res) => {
       secretCode,
     });
 
-    newDelivery
-      .save()
-      .then(() => res.json({ result: true, message: "Delivery created" }));
+    newDelivery.save().then((newDeliveryData) => {
+      const userDeliveriesList = userData.deliveries;
+      userDeliveriesList.push(newDeliveryData._id);
+
+      User.updateOne(
+        { _id: senderId },
+        { deliveries: userDeliveriesList }
+      ).then(() => {
+        res.json({ result: true, message: "Delivery created" });
+      });
+    });
   });
 });
 
-//Vient modifier le status de l'objet delivery en "Assigned"
+// Picker gets list of available deliveries
 router.get("/lookingForPicker", (req, res) => {
   Delivery.find({ status: "LOOKING_FOR_PICKER" }).then((deliveries) => {
     // Pick one delivery with algorithm
@@ -47,6 +55,7 @@ router.get("/lookingForPicker", (req, res) => {
   });
 });
 
+//Vient modifier le status de l'objet delivery en "Assigned"
 router.post("/assign", (req, res) => {
   const { deliveryId, token } = req.body;
 
@@ -70,5 +79,19 @@ router.post("/assign", (req, res) => {
 //Avoir la position en direct du livreur. Renvoie position + estimation de la distance et du time remaining.
 
 router.get("/pickerPosition", (req, res) => {});
+
+// Get user deliveries
+router.get("/:userToken", (req, res) => {
+  const { userToken } = req.params;
+
+  User.findOne({ token: userToken }).then((userData) => {
+    if (!userData) {
+      res.json({ result: false, message: "User not found" });
+    } else {
+      const { deliveries } = userData;
+      res.json({ result: true }, deliveries);
+    }
+  });
+});
 
 module.exports = router;
