@@ -43,6 +43,19 @@ router.post("/", (req, res) => {
 });
 
 // Picker gets list of available deliveries
+router.get("/info", (req, res) => {
+  const { deliveryId } = req.body;
+
+  Delivery.findOne({ _id: deliveryId }).then((data) => {
+    const { volume, pickupAddress, description, price } = data;
+    res.json({
+      result: true,
+      delivery: { volume, pickupAddress, description, price },
+    });
+  });
+});
+
+// Picker gets list of available deliveries
 router.get("/lookingForPicker", (req, res) => {
   Delivery.find({ status: "LOOKING_FOR_PICKER" }).then((deliveries) => {
     // Pick one delivery with algorithm
