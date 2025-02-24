@@ -35,7 +35,7 @@ router.post("/signup", (req, res) => {
         token: uid2(32),
       });
       newUser.save().then((newData) => {
-        res.json({ result: true, user: newData });
+        res.json({ result: true, token: newData.token });
       });
     }
   });
