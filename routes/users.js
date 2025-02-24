@@ -97,7 +97,8 @@ router.post("/signin", (req, res) => {
   User.findOne({ email: lowerCaseEmail }).then((data) => {
     if (data) {
       if (bcrypt.compareSync(password, data.password)) {
-        res.json({ result: true, data: data });
+        const { token, email, userType } = data;
+        res.json({ result: true, email, userType, token });
       } else {
         res.json({ result: false, error: "Mot de passe incorrect" });
       }
