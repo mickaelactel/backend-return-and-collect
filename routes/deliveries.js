@@ -76,6 +76,26 @@ router.post("/assign", (req, res) => {
   });
 });
 
+router.post("/cancel", (req, res) => {
+  const { deliveryId, token } = req.body;
+
+  User.findOne({ token }).then((userData) => {
+    const pickerId = userData._id;
+    Delivery.findOne({ _id: deliveryId }).then((data) => {
+      if (data && data.status !== "CANCELED") {
+        Delivery.updateOne(
+          { _id: deliveryId },
+          { status: "CANCELED", pickerId }
+        ).then(() => {
+          res.json({ result: true, message: "Delivery canceled" });
+        });
+      } else {
+        res.json({ result: false, error: "Cannot cancel this delivery" });
+      }
+    });
+  });
+});
+
 //Avoir la position en direct du livreur. Renvoie position + estimation de la distance et du time remaining.
 
 router.get("/pickerPosition", (req, res) => {});
