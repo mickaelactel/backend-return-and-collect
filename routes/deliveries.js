@@ -47,10 +47,10 @@ router.get("/info", (req, res) => {
   const { deliveryId } = req.body;
 
   Delivery.findOne({ _id: deliveryId }).then((data) => {
-    const { volume, pickupAddress, description, price } = data;
+    const { volume, pickupAddress, description, price, status } = data;
     res.json({
       result: true,
-      delivery: { volume, pickupAddress, description, price },
+      delivery: { volume, pickupAddress, description, price, status },
     });
   });
 });
