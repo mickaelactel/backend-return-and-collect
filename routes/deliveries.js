@@ -63,9 +63,9 @@ router.get("/info", (req, res) => {
 router.get("/lookingForPicker", (req, res) => {
   Delivery.find({ status: "LOOKING_FOR_PICKER" }).then((deliveries) => {
     // Pick one delivery with algorithm
-    const randomDelivery = Math.floor(Math.random() * deliveries.length);
+    // const randomDelivery = Math.floor(Math.random() * deliveries.length);
     if (deliveries) {
-      res.json({ result: true, delivery: deliveries[randomDelivery] });
+      res.json({ result: true, deliveries });
     } else {
       res.json({ result: false, message: "No deliveries waiting" });
     }
