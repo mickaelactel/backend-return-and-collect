@@ -14,7 +14,7 @@ router.post("/", (req, res) => {
   User.findOne({ token }).then((userData) => {
     const senderId = userData._id;
 
-    const price = Math.floor(distance * Math.random());
+    const price = Math.floor(10 * Math.random());
     const secretCode = Math.floor(1000 * Math.random())
       .toString()
       .padStart(4, "0");
