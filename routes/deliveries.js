@@ -47,8 +47,8 @@ router.post("/", (req, res) => {
 });
 
 // Picker gets list of available deliveries
-router.get("/info", (req, res) => {
-  const { deliveryId } = req.body;
+router.get("/info/:deliveryId", (req, res) => {
+  const { deliveryId } = req.params;
 
   Delivery.findOne({ _id: deliveryId }).then((data) => {
     const { volume, pickupAddress, description, price, status } = data;
