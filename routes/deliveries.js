@@ -39,7 +39,7 @@ router.post("/", (req, res) => {
         res.json({
           result: true,
           message: "Delivery created",
-          data: deliveryData,
+          data: newDeliveryData,
         });
       });
     });
