@@ -34,6 +34,7 @@ const userSchema = mongoose.Schema(
     //information de paiement picker
     creditMethod: {
       name: String,
+      bankName: String,
       iban: String,
       bic: String,
     },
