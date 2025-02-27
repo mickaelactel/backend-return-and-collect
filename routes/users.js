@@ -54,6 +54,7 @@ router.put("/", (req, res) => {
     userType,
     email,
     password,
+    isAvailable,
   } = req.body;
 
   const newData = {
@@ -65,6 +66,7 @@ router.put("/", (req, res) => {
     zipcode,
     userType,
     email,
+    isAvailable,
     password: password ? bcrypt.hashSync(password, 10) : undefined,
   };
 
