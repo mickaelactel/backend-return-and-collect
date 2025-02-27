@@ -25,7 +25,7 @@ router.post("/signup", (req, res) => {
 
   User.findOne({ email: lowerCaseEmail }).then((data) => {
     if (data !== null) {
-      // si on rentre un email qui est déjà stocker dans la bdd l'erreur de la ligne 22 s'affiche sinon on execute la ligne 25 et on crée un nouvel utilisateur
+      // si on rentre un email qui est déjà stocker dans la bdd l'erreur de la ligne 25 s'affiche sinon on execute la ligne 28 et on crée un nouvel utilisateur
       res.json({ result: false, error: "Email already used" });
     } else {
       const hash = bcrypt.hashSync(req.body.password, 10);

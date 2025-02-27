@@ -24,14 +24,19 @@ const userSchema = mongoose.Schema(
     // Payment informations
     paymentMethod: { type: String, enum: ["PAYPAL", "CREDIT_CARD"] },
     paymentInfo: {
+      name: String,
       paypalAccount: String,
       creditCardNumber: String, // Hashé
       creditCardLastDigits: String, // Quatre derniers chiffres
-      creditCardDigitsSecurityDigits: String, // Chiffres derrière la carte
+      creditCardSecurityDigits: String, // Chiffres derrière la carte
+      expirationDate: String,
+      bankName: String,
     },
 
     //information de paiement picker
     creditMethod: {
+      name: String,
+      bankName: String,
       iban: String,
       bic: String,
     },
