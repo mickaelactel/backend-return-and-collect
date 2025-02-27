@@ -51,7 +51,7 @@ router.put("/", (req, res) => {
     address,
     city,
     zipcode,
-    usertype,
+    userType,
     email,
     password,
   } = req.body;
@@ -63,7 +63,7 @@ router.put("/", (req, res) => {
     address,
     city,
     zipcode,
-    usertype,
+    userType,
     email,
     password: password ? bcrypt.hashSync(password, 10) : undefined,
   };
