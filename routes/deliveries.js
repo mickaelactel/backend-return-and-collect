@@ -61,7 +61,7 @@ router.get("/info/:deliveryId", (req, res) => {
 });
 
 // Picker gets list of available deliveries
-router.get("/lookingForPicker", (req, res) => {
+router.get("/isLookingForPicker", (req, res) => {
   Delivery.find({ status: "LOOKING_FOR_PICKER" }).then((deliveries) => {
     // Pick one delivery with algorithm
     // const randomDelivery = Math.floor(Math.random() * deliveries.length);
