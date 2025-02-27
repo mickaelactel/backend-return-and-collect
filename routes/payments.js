@@ -19,45 +19,21 @@ router.post("/ibanbic", (req, res) => {
   } else {
     User.findOne({ token: req.body.token }).then((data) => {
       if (data == null) {
-        res.json({result: false, error: "No picker found"})
+        res.json({ result: false, error: "No picker found" });
       } else {
-        const creditMethod =
-          {name: req.body.name, bankName: req.body.bankName, iban: req.body.iban, bic: req.body.bic};
-          User.updateOne({token: req.body.token}, { creditMethod }).then((data) => 
-            res.json({result: true, creditMethod: data})
-        )   
-      } 
+        const creditMethod = {
+          name: req.body.name,
+          bankName: req.body.bankName,
+          iban: req.body.iban,
+          bic: req.body.bic,
+        };
+        User.updateOne({ token: req.body.token }, { creditMethod }).then(
+          (data) => res.json({ result: true, creditMethod: data })
+        );
+      }
     });
   }
 });
-
-router.put("/", (req, res) => {
-    const {
-      name,
-      bankName,
-      iban,
-      bic
-    } = req.body;
-  
-    const newCreditMethod = {
-        name,
-        bankName,
-        iban,
-        bic
-    };
-  
-    User.findOneAndUpdate({ token }, newCreditMethod).then((data) => {
-      if (data == null) {
-        res.json({ result: false, error: "User not found" });
-      } else {
-        if (newCreditMethod) {
-            res.json({ result: true, modifications: newCreditMethod });
-        }  
-      }
-    });
-  });
-
-
 
 router.post("/card", (req, res) => {
   if (
@@ -85,45 +61,22 @@ router.post("/card", (req, res) => {
     return;
   } else {
     User.findOne({ token: req.body.token }).then((data) => {
-        if (data == null) {
-          res.json({result: false, error: "No user found"})
-        } else {
-          const paymentMethod =
-            {bankName: req.body.bankName, name: req.body.name, creditCardNumber: req.body.creditCardNumber, expirationDate: req.body.expirationDate, creditCardSecurityDigits: req.body.creditCardSecurityDigits};
-            User.updateOne({token: req.body.token}, { paymentMethod }).then((data) => 
-              res.json({result: true, paymentMethod: data})
-          )   
-        } 
-      });
-  }
-});
-
-router.put("/", (req, res) => {
-    const {
-      bankName,
-      name,
-      creditCardNumber,
-      expirationDate,
-      creditCardSecurityDigits
-    } = req.body;
-  
-    const newPaymentMethod = {
-        bankName,
-        name,
-        creditCardNumber,
-        expirationDate,
-        creditCardSecurityDigits
-    };
-  
-    User.findOneAndUpdate({ token }, newPaymentMethod).then((data) => {
       if (data == null) {
-        res.json({ result: false, error: "User not found" });
+        res.json({ result: false, error: "No user found" });
       } else {
-        if (newPaymentMethod) {
-            res.json({ result: true, modifications: newPaymentMethod });
-        }  
+        const paymentMethod = {
+          bankName: req.body.bankName,
+          name: req.body.name,
+          creditCardNumber: req.body.creditCardNumber,
+          expirationDate: req.body.expirationDate,
+          creditCardSecurityDigits: req.body.creditCardSecurityDigits,
+        };
+        User.updateOne({ token: req.body.token }, { paymentMethod }).then(
+          (data) => res.json({ result: true, paymentMethod: data })
+        );
       }
     });
-  });
+  }
+});
 
 module.exports = router;
