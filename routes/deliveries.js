@@ -9,7 +9,7 @@ const Delivery = require("../models/deliveries");
 
 // Creation de la delivery
 router.post("/", (req, res) => {
-  const { token, description, volume, pickupAddress } = req.body;
+  const { token, description, volume, pickupAddress, size } = req.body;
 
   User.findOne({ token }).then((userData) => {
     const senderId = userData._id;
@@ -26,6 +26,7 @@ router.post("/", (req, res) => {
       pickupAddress,
       price,
       secretCode,
+      size,
     });
 
     newDelivery.save().then((newDeliveryData) => {
