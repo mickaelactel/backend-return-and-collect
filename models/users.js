@@ -28,7 +28,9 @@ const userSchema = mongoose.Schema(
       paypalAccount: String,
       creditCardNumber: String, // Hashé
       creditCardLastDigits: String, // Quatre derniers chiffres
-      creditCardDigitsSecurityDigits: String, // Chiffres derrière la carte
+      creditCardSecurityDigits: String, // Chiffres derrière la carte
+      expirationDate: String,
+      bankName: String,
     },
 
     //information de paiement picker
