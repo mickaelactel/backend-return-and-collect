@@ -54,12 +54,14 @@ router.get("/activity/:token", (req, res) => {
   User.findOne({ token }).then((userData) => {
     if (userData) {
       const senderId = userData._id;
-      Delivery.find({ senderId }).then((deliveriesData) => {
-        res.json({
-          result: true,
-          deliveries: deliveriesData,
+      Delivery.find({ senderId })
+        .populate("pickerId", "firstName lastName")
+        .then((deliveriesData) => {
+          res.json({
+            result: true,
+            deliveries: deliveriesData,
+          });
         });
-      });
     } else {
       res.json({ result: false, message: "User not found" });
     }
