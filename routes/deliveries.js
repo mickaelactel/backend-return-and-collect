@@ -53,7 +53,7 @@ router.get("/activity/:token", (req, res) => {
 
   User.findOne({ token }).then((userData) => {
     if (userData) {
-      const senderId = data._id;
+      const senderId = userData._id;
       Delivery.find({ senderId }).then((deliveriesData) => {
         res.json({
           result: true,
