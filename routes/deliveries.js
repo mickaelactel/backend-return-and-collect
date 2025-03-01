@@ -47,6 +47,25 @@ router.post("/", (req, res) => {
   });
 });
 
+// Get user activity
+router.get("/activity/:token", (req, res) => {
+  const { token } = req.params;
+
+  User.findOne({ token }).then((userData) => {
+    if (userData) {
+      const senderId = data._id;
+      Delivery.find({ senderId }).then((deliveriesData) => {
+        res.json({
+          result: true,
+          deliveries: deliveriesData,
+        });
+      });
+    } else {
+      res.json({ result: false, message: "User not found" });
+    }
+  });
+});
+
 // Picker gets list of available deliveries
 router.get("/info/:deliveryId", (req, res) => {
   const { deliveryId } = req.params;
