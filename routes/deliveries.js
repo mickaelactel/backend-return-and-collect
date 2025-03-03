@@ -72,13 +72,15 @@ router.get("/activity/:token", (req, res) => {
 router.get("/info/:deliveryId", (req, res) => {
   const { deliveryId } = req.params;
 
-  Delivery.findOne({ _id: deliveryId }).then((data) => {
-    const { volume, pickupAddress, description, price, status } = data;
-    res.json({
-      result: true,
-      delivery: { volume, pickupAddress, description, price, status },
+  Delivery.findOne({ _id: deliveryId })
+    .populate("senderId", "firstName lastName")
+    .then((data) => {
+      const { volume, pickupAddress, description, price, status } = data;
+      res.json({
+        result: true,
+        delivery: { volume, pickupAddress, description, price, status },
+      });
     });
-  });
 });
 
 // Picker gets list of available deliveries
