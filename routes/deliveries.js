@@ -119,6 +119,31 @@ router.post("/assign", (req, res) => {
   });
 });
 
+router.put("/updatePickerPosition", (req, res) => {
+  const { deliveryId, latitude, longitude } = req.body;
+
+  Delivery.findOne({ _id: deliveryId }).then((data) => {
+    if (data.status === "ASSIGNED") {
+      Delivery.updateOne(
+        { _id: deliveryId },
+        { pickerPosition: { latitude, longitude } }
+      ).then(() => {
+        res.json({ result: true });
+      });
+    } else {
+      Delivery.updateOne(
+        { _id: deliveryId },
+        {
+          pickerPosition: { latitude: undefined, longitude: undefined },
+        }
+      ).then(() => {
+        res.json({ result: true, message: "pickerPosition erased" });
+      });
+      res.json({ result: false, error: "Delivery already assigned" });
+    }
+  });
+});
+
 router.post("/cancel", (req, res) => {
   const { deliveryId, token } = req.body;
 

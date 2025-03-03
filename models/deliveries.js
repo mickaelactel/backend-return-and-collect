@@ -8,6 +8,7 @@ const deliverySchema = mongoose.Schema({
     ref: "users",
   },
   pickerId: { type: mongoose.Schema.Types.ObjectId, ref: "users" },
+  pickerPosition: { latitude: { type: Number }, longitude: { type: Number } },
   description: { type: String, required: true },
   volume: { type: Number },
   size: { type: String },
