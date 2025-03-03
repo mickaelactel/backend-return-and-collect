@@ -85,15 +85,17 @@ router.get("/info/:deliveryId", (req, res) => {
 
 // Picker gets list of available deliveries
 router.get("/isLookingForPicker", (req, res) => {
-  Delivery.find({ status: "LOOKING_FOR_PICKER" }).then((deliveries) => {
-    // Pick one delivery with algorithm
-    // const randomDelivery = Math.floor(Math.random() * deliveries.length);
-    if (deliveries) {
-      res.json({ result: true, deliveries });
-    } else {
-      res.json({ result: false, message: "No deliveries waiting" });
-    }
-  });
+  Delivery.find({ status: "LOOKING_FOR_PICKER" })
+    .populate("senderId", "firstName lastName")
+    .then((deliveries) => {
+      // Pick one delivery with algorithm
+      // const randomDelivery = Math.floor(Math.random() * deliveries.length);
+      if (deliveries) {
+        res.json({ result: true, deliveries });
+      } else {
+        res.json({ result: false, message: "No deliveries waiting" });
+      }
+    });
 });
 
 //Vient modifier le status de l'objet delivery en "Assigned"
@@ -148,7 +150,6 @@ router.get("/:userToken", (req, res) => {
   User.findOne({ token: userToken })
     .populate("deliveries")
     .then((userData) => {
-      console.log(userData);
       if (!userData) {
         res.json({ result: false, message: "User not found" });
       } else {
