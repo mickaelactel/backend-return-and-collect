@@ -60,6 +60,11 @@ const userSchema = mongoose.Schema(
 
     rating: { type: Number, default: 5 },
     numberOfRatings: { type: Number, default: 0 },
+    transportType: {
+      type: String,
+      enum: ["Vélo 🚲", "Scooter 🛵", "Voiture 🚗", "Camion 🚛"],
+      default: null,
+    },
 
     // Clé étrangères à faire
     reviews: { type: [mongoose.Schema.Types.ObjectId], ref: "reviews" },
