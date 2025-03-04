@@ -9,7 +9,8 @@ const Delivery = require("../models/deliveries");
 
 // Creation de la delivery
 router.post("/", (req, res) => {
-  const { token, description, volume, pickupAddress, size } = req.body;
+  const { token, description, volume, pickupAddress, pickupPosition, size } =
+    req.body;
 
   User.findOne({ token }).then((userData) => {
     const senderId = userData._id;
@@ -24,6 +25,7 @@ router.post("/", (req, res) => {
       description,
       volume,
       pickupAddress,
+      pickupPosition,
       price,
       secretCode,
       size,
@@ -68,7 +70,7 @@ router.get("/activity/:token", (req, res) => {
   });
 });
 
-// Picker gets list of available deliveries
+// Picker delivery information
 router.get("/info/:deliveryId", (req, res) => {
   const { deliveryId } = req.params;
 
@@ -82,7 +84,7 @@ router.get("/info/:deliveryId", (req, res) => {
         price,
         status,
         pickerPosition,
-        pickupPosition
+        pickupPosition,
       } = data;
       res.json({
         result: true,
@@ -93,10 +95,23 @@ router.get("/info/:deliveryId", (req, res) => {
           price,
           status,
           pickerPosition,
-          pickupPosition
+          pickupPosition,
         },
       });
     });
+});
+
+// Picker delivery information
+router.post("/checkSecretCode", (req, res) => {
+  const { deliveryId, secretCode } = req.body;
+
+  Delivery.findOne({ _id: deliveryId, secretCode }).then((data) => {
+    if (data) {
+      res.json({ result: true });
+    } else {
+      res.json({ result: false });
+    }
+  });
 });
 
 // Picker gets list of available deliveries
