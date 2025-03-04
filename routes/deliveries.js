@@ -147,20 +147,20 @@ router.post("/assign", (req, res) => {
           { _id: deliveryId },
           { status: "ASSIGNED", pickerId }
         ).then(() => {
-          res.json({ result: true, message: "Delivery assigned" });
+          res.json({
+            result: true,
+            message: "Delivery assigned",
+            data: {
+              deliveryId: data._id,
+              pickupAddress: data.pickupAddress,
+              pickupPosition: data.pickerPosition,
+              volume: data.volume,
+              size: data.size,
+            },
+          });
         });
       } else {
-        res.json({
-          result: true,
-          message: "Delivery assigned",
-          data: {
-            deliveryId: data._id,
-            pickupAddress: data.pickupAddress,
-            pickupPosition: data.pickerPosition,
-            volume: data.volume,
-            size: data.size,
-          },
-        });
+        res.json({ result: false, message: "Can't assign delivery" });
       }
     });
   });
