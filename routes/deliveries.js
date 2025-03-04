@@ -148,6 +148,7 @@ router.post("/assign", (req, res) => {
             result: true,
             message: "Delivery assigned",
             data: {
+              deliveryId: data._id,
               pickupAddress: data.pickupAddress,
               pickupPosition: data.pickerPosition,
               volume: data.volume,
