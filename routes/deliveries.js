@@ -86,6 +86,7 @@ router.get("/info/:deliveryId", (req, res) => {
         status,
         pickerPosition,
         pickupPosition,
+        pickerId,
       } = data;
       res.json({
         result: true,
@@ -97,6 +98,7 @@ router.get("/info/:deliveryId", (req, res) => {
           status,
           pickerPosition,
           pickupPosition,
+          pickerId,
         },
       });
     });
