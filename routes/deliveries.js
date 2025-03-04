@@ -75,10 +75,26 @@ router.get("/info/:deliveryId", (req, res) => {
   Delivery.findOne({ _id: deliveryId })
     .populate("senderId", "firstName lastName")
     .then((data) => {
-      const { volume, pickupAddress, description, price, status } = data;
+      const {
+        volume,
+        pickupAddress,
+        description,
+        price,
+        status,
+        pickerPosition,
+        pickupPosition
+      } = data;
       res.json({
         result: true,
-        delivery: { volume, pickupAddress, description, price, status },
+        delivery: {
+          volume,
+          pickupAddress,
+          description,
+          price,
+          status,
+          pickerPosition,
+          pickupPosition
+        },
       });
     });
 });

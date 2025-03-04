@@ -13,6 +13,7 @@ const deliverySchema = mongoose.Schema({
   volume: { type: Number },
   size: { type: String },
   pickupAddress: { type: String, required: true },
+  pickupPosition: { latitude: { type: Number }, longitude: { type: Number } },
   deliveryAddress: { type: String },
   pickupTime: Date,
   deliveryTime: Date,
