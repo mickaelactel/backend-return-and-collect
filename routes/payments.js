@@ -3,8 +3,9 @@ var router = express.Router();
 
 require("../models/connection");
 const User = require("../models/users");
+const { token } = require("morgan");
 
-router.post("/ibanbic", (req, res) => {
+router.post("/iban", (req, res) => {
   if (!req.body.name || !req.body.bankName || !req.body.iban || !req.body.bic) {
     res.json({ result: false, error: "Missing or empty fields" });
     return;
@@ -77,6 +78,25 @@ router.post("/card", (req, res) => {
       }
     });
   }
+});
+
+// recupere les infos de paiement du picker
+router.get("/accountInfos/:token", function (req, res) {
+  User.findOne({ token: req.params.token }).then((data) => {
+    if (data) {
+      res.json({
+        result: true,
+        data: {
+          bankName: data.bankName,
+          name: data.name,
+          iban: data.iban,
+          bic: data.bic,
+        },
+      });
+    } else {
+      res.json({ result: false, message: "Bank account not found" });
+    }
+  });
 });
 
 module.exports = router;
