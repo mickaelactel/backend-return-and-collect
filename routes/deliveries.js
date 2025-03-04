@@ -76,7 +76,10 @@ router.get("/info/:deliveryId", (req, res) => {
 
   Delivery.findOne({ _id: deliveryId })
     .populate("senderId", "firstName lastName ")
-    .populate("pickerId", "firstName rating numberOfDeliveries transportType")
+    .populate(
+      "pickerId",
+      "firstName numberOfDeliveries rating numberOfRatings transportType"
+    )
     .then((data) => {
       const {
         volume,
@@ -144,17 +147,7 @@ router.post("/assign", (req, res) => {
           { _id: deliveryId },
           { status: "ASSIGNED", pickerId }
         ).then(() => {
-          res.json({
-            result: true,
-            message: "Delivery assigned",
-            data: {
-              deliveryId: data._id,
-              pickupAddress: data.pickupAddress,
-              pickupPosition: data.pickerPosition,
-              volume: data.volume,
-              size: data.size,
-            },
-          });
+          res.json({ result: true, message: "Delivery assigned" });
         });
       } else {
         res.json({ result: false, error: "Delivery already assigned" });
