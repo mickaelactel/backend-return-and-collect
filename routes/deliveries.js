@@ -76,7 +76,7 @@ router.get("/info/:deliveryId", (req, res) => {
 
   Delivery.findOne({ _id: deliveryId })
     .populate("senderId", "firstName lastName ")
-    .populate("pickerId", "firstName rating numberOfRatings transportType")
+    .populate("pickerId", "firstName rating numberOfDeliveries transportType")
     .then((data) => {
       const {
         volume,
