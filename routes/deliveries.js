@@ -150,7 +150,17 @@ router.post("/assign", (req, res) => {
           res.json({ result: true, message: "Delivery assigned" });
         });
       } else {
-        res.json({ result: false, error: "Delivery already assigned" });
+        res.json({
+          result: true,
+          message: "Delivery assigned",
+          data: {
+            deliveryId: data._id,
+            pickupAddress: data.pickupAddress,
+            pickupPosition: data.pickerPosition,
+            volume: data.volume,
+            size: data.size,
+          },
+        });
       }
     });
   });
