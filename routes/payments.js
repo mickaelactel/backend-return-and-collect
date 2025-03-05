@@ -3,7 +3,6 @@ var router = express.Router();
 
 require("../models/connection");
 const User = require("../models/users");
-const { token } = require("morgan");
 
 router.post("/iban", (req, res) => {
   if (!req.body.name || !req.body.bankName || !req.body.iban || !req.body.bic) {
@@ -83,18 +82,37 @@ router.post("/card", (req, res) => {
 // recupere les infos de paiement du picker
 router.get("/accountInfos/:token", function (req, res) {
   User.findOne({ token: req.params.token }).then((data) => {
-    if (data) {
+    if (data) { 
       res.json({
         result: true,
         data: {
-          bankName: data.bankName,
-          name: data.name,
-          iban: data.iban,
-          bic: data.bic,
-        },
+          bankName: data.creditMethod.bankName,
+          name: data.creditMethod.name,
+          iban: data.creditMethod.iban,
+          bic: data.creditMethod.bic,
+        }, 
       });
     } else {
       res.json({ result: false, message: "Bank account not found" });
+    }
+  });
+});
+
+router.get("/accountInfos/:token", function (req, res) {
+  User.findOne({ token: req.params.token }).then((data) => {
+    if (data) { 
+      res.json({
+        result: true,
+        data: {
+          bankName: data.paymentMethod.bankName,
+          name: data.paymentMethod.name,
+          creditCardNumber: data.paymentMethod.creditCardNumber,
+          expirationDate: data.paymentMethod.expirationDate,
+          creditCardSecurityDigits: data.paymentMethod.creditCardSecurityDigits,
+        }, 
+      });
+    } else {
+      res.json({ result: false, message: "Card not found" });
     }
   });
 });
