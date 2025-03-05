@@ -109,7 +109,7 @@ router.get("/info/:deliveryId", (req, res) => {
     });
 });
 
-// Picker delivery information
+// Picker delivery informations
 router.post("/checkSecretCode", (req, res) => {
   const { deliveryId, secretCode } = req.body;
 
