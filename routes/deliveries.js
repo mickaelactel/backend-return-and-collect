@@ -155,7 +155,7 @@ router.post("/assign", (req, res) => {
             data: {
               deliveryId: data._id,
               pickupAddress: data.pickupAddress,
-              pickupPosition: data.pickerPosition,
+              pickupPosition: data.pickupPosition,
               volume: data.volume,
               size: data.size,
             },
