@@ -139,7 +139,7 @@ router.get("/isLookingForPicker", (req, res) => {
 
 //Vient modifier le status de l'objet delivery en "Assigned"
 router.post("/assign", (req, res) => {
-  const { deliveryId, token } = req.body;
+  const { deliveryId, token, pickerPosition } = req.body;
 
   User.findOne({ token }).then((userData) => {
     const pickerId = userData._id;
@@ -147,7 +147,7 @@ router.post("/assign", (req, res) => {
       if (data.status === "LOOKING_FOR_PICKER") {
         Delivery.updateOne(
           { _id: deliveryId },
-          { status: "ASSIGNED", pickerId }
+          { status: "ASSIGNED", pickerId, pickerPosition }
         ).then(() => {
           res.json({
             result: true,
