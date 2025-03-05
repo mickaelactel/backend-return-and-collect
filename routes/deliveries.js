@@ -90,6 +90,7 @@ router.get("/info/:deliveryId", (req, res) => {
         pickerPosition,
         pickupPosition,
         pickerId,
+        secretCode,
       } = data;
       res.json({
         result: true,
@@ -99,6 +100,7 @@ router.get("/info/:deliveryId", (req, res) => {
           description,
           price,
           status,
+          secretCode,
           pickerPosition,
           pickupPosition,
           pickerId,
@@ -107,7 +109,7 @@ router.get("/info/:deliveryId", (req, res) => {
     });
 });
 
-// Picker delivery information
+// Picker delivery informations
 router.post("/checkSecretCode", (req, res) => {
   const { deliveryId, secretCode } = req.body;
 
