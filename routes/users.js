@@ -11,12 +11,10 @@ router.post("/signup", (req, res) => {
   const { email, password, confirmPassword } = req.body;
 
   if (!email || !password || !confirmPassword) {
-    //si un des 3 champs est vide (!) l'erreur de la ligne 11 s'affiche
     res.json({ result: false, error: "un champ de saisie est vide" });
     return;
   }
   if (!email.match(/.+\@.+\..+/)) {
-    // si le nouvel utilisateur ne rentre pas un type email l'erreur de la ligne 15 s'affiche
     res.json({ result: false, error: "Email invalid" });
     return;
   }
@@ -25,7 +23,6 @@ router.post("/signup", (req, res) => {
 
   User.findOne({ email: lowerCaseEmail }).then((data) => {
     if (data !== null) {
-      // si on rentre un email qui est déjà stocker dans la bdd l'erreur de la ligne 25 s'affiche sinon on execute la ligne 28 et on crée un nouvel utilisateur
       res.json({ result: false, error: "Email already used" });
     } else {
       const hash = bcrypt.hashSync(req.body.password, 10);
@@ -84,6 +81,7 @@ router.put("/", (req, res) => {
   });
 });
 
+// User signin
 router.post("/signin", (req, res) => {
   const { email, password } = req.body;
 
