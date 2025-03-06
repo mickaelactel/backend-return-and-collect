@@ -4,7 +4,7 @@ var router = express.Router();
 require("../models/connection");
 const User = require("../models/users");
 
-router.post("/ibanbic", (req, res) => {
+router.post("/iban", (req, res) => {
   if (!req.body.name || !req.body.bankName || !req.body.iban || !req.body.bic) {
     res.json({ result: false, error: "Missing or empty fields" });
     return;
@@ -48,7 +48,7 @@ router.post("/card", (req, res) => {
   }
   if (
     !req.body.creditCardNumber.match(
-      /^(?:4[0-9]{12}(?:[0-9]{3})?|[25][1-7][0-9]{14}|6(?:011|5[0-9][0-9])[0-9]{12}|3[47][0-9]{13}|3(?:0[0-5]|[68][0-9])[0-9]{11}|(?:2131|1800|35\d{3})\d{11})$/
+      /\b(?:\d{4}[ -]?){3}(?=\d{4}\b)/
     )
   ) {
     res.json({ result: false, error: "Invalid card number" });
@@ -64,19 +64,57 @@ router.post("/card", (req, res) => {
       if (data == null) {
         res.json({ result: false, error: "No user found" });
       } else {
-        const paymentMethod = {
+        const paymentInfo = {
           bankName: req.body.bankName,
           name: req.body.name,
           creditCardNumber: req.body.creditCardNumber,
           expirationDate: req.body.expirationDate,
           creditCardSecurityDigits: req.body.creditCardSecurityDigits,
         };
-        User.updateOne({ token: req.body.token }, { paymentMethod }).then(
-          (data) => res.json({ result: true, paymentMethod: data })
+        User.updateOne({ token: req.body.token }, { paymentInfo }).then(
+          (data) => res.json({ result: true, paymentInfo: data })
         );
       }
     });
   }
+});
+
+// recupere les infos de paiement du picker
+router.get("/accountInfos/:token", function (req, res) {
+  User.findOne({ token: req.params.token }).then((data) => {
+    if (data) { 
+      res.json({
+        result: true,
+        data: {
+          bankName: data.creditMethod.bankName,
+          name: data.creditMethod.name,
+          iban: data.creditMethod.iban,
+          bic: data.creditMethod.bic,
+        }, 
+      });
+    } else {
+      res.json({ result: false, message: "Bank account not found" });
+    }
+  });
+});
+
+router.get("/cardInfos/:token", function (req, res) {
+  User.findOne({ token: req.params.token }).then((data) => {
+    if (data) { 
+      res.json({
+        result: true,
+        data: {
+          bankName: data.paymentInfo.bankName,
+          name: data.paymentInfo.name,
+          creditCardNumber: data.paymentInfo.creditCardNumber,
+          expirationDate: data.paymentInfo.expirationDate,
+          creditCardSecurityDigits: data.paymentInfo.creditCardSecurityDigits,
+        }, 
+      });
+    } else {
+      res.json({ result: false, message: "Card not found" });
+    }
+  });
 });
 
 module.exports = router;
