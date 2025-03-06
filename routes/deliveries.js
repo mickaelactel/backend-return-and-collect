@@ -194,21 +194,16 @@ router.put("/updatePickerPosition", (req, res) => {
 });
 
 router.put("/status", (req, res) => {
-  const { deliveryId, token, status } = req.body;
+  const { deliveryId, status } = req.body;
 
-  User.findOne({ token }).then((userData) => {
-    const senderId = userData._id;
-    Delivery.findOne({ _id: deliveryId }).then((data) => {
-      if (data) {
-        Delivery.updateOne({ _id: deliveryId, senderId }, { status }).then(
-          () => {
-            res.json({ result: true, message: "Delivery updated" });
-          }
-        );
-      } else {
-        res.json({ result: false, error: "Cannot update this delivery" });
-      }
-    });
+  Delivery.findOne({ _id: deliveryId }).then((data) => {
+    if (data) {
+      Delivery.updateOne({ _id: deliveryId }, { status }).then(() => {
+        res.json({ result: true, message: "Delivery updated" });
+      });
+    } else {
+      res.json({ result: false, error: "Cannot update this delivery" });
+    }
   });
 });
 
