@@ -48,8 +48,8 @@ router.post("/", (req, res) => {
 });
 
 // Get mean rating of a picker
-router.get("/meanRating", (req, res) => {
-  const { pickerId } = req.body;
+router.get("/meanRating/:pickerId", (req, res) => {
+  const { pickerId } = req.params;
 
   Review.find({ pickerId }).then((reviews) => {
     if (!reviews) {
