@@ -193,7 +193,7 @@ router.put("/updatePickerPosition", (req, res) => {
   });
 });
 
-router.post("/status", (req, res) => {
+router.put("/status", (req, res) => {
   const { deliveryId, token, status } = req.body;
 
   User.findOne({ token }).then((userData) => {
