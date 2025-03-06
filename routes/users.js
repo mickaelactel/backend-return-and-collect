@@ -81,7 +81,7 @@ router.put("/", (req, res) => {
   });
 });
 
-// User signin
+// User signin 
 router.post("/signin", (req, res) => {
   const { email, password } = req.body;
 
