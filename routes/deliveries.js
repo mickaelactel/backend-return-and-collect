@@ -50,7 +50,7 @@ router.post("/", (req, res) => {
 });
 
 // Get user activity
-router.get("/activity/:token", (req, res) => {
+router.get("/userActivity/:token", (req, res) => {
   const { token } = req.params;
 
   User.findOne({ token }).then((userData) => {
@@ -66,6 +66,27 @@ router.get("/activity/:token", (req, res) => {
         });
     } else {
       res.json({ result: false, message: "User not found" });
+    }
+  });
+});
+
+// Get picker activity
+router.get("/pickerActivity/:token", (req, res) => {
+  const { token } = req.params;
+
+  User.findOne({ token }).then((userData) => {
+    if (userData) {
+      const pickerId = userData._id;
+      Delivery.find({ pickerId })
+        .populate("senderId", "firstName lastName")
+        .then((deliveriesData) => {
+          res.json({
+            result: true,
+            deliveries: deliveriesData,
+          });
+        });
+    } else {
+      res.json({ result: false, message: "Data not found" });
     }
   });
 });
@@ -210,21 +231,5 @@ router.put("/status", (req, res) => {
 //Avoir la position en direct du livreur. Renvoie position + estimation de la distance et du time remaining.
 
 router.get("/pickerPosition", (req, res) => {});
-
-// Get user deliveries
-router.get("/:userToken", (req, res) => {
-  const { userToken } = req.params;
-
-  User.findOne({ token: userToken })
-    .populate("deliveries")
-    .then((userData) => {
-      if (!userData) {
-        res.json({ result: false, message: "User not found" });
-      } else {
-        const { deliveries } = userData;
-        res.json({ result: true, deliveries });
-      }
-    });
-});
 
 module.exports = router;
