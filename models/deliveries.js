@@ -20,11 +20,11 @@ const deliverySchema = mongoose.Schema({
   status: {
     type: String,
     enum: [
-      "LOOKING_FOR_PICKER",
-      "ASSIGNED",
-      "IN_TRANSIT",
-      "DELIVERED",
-      "CANCELED",
+      "LOOKING_FOR_PICKER", // 🔎
+      "ASSIGNED", // 🙋‍♂️
+      "IN_TRANSIT", // 🔜 Do not use for the moment
+      "DELIVERED", // ✅
+      "CANCELED", // ❌
     ],
     default: "LOOKING_FOR_PICKER",
   },
