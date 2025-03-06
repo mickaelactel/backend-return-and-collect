@@ -193,21 +193,20 @@ router.put("/updatePickerPosition", (req, res) => {
   });
 });
 
-router.post("/cancel", (req, res) => {
-  const { deliveryId, token } = req.body;
+router.post("/status", (req, res) => {
+  const { deliveryId, token, status } = req.body;
 
   User.findOne({ token }).then((userData) => {
     const senderId = userData._id;
     Delivery.findOne({ _id: deliveryId }).then((data) => {
-      if (data && data.status !== "CANCELED") {
-        Delivery.updateOne(
-          { _id: deliveryId, senderId },
-          { status: "CANCELED" }
-        ).then(() => {
-          res.json({ result: true, message: "Delivery canceled" });
-        });
+      if (data) {
+        Delivery.updateOne({ _id: deliveryId, senderId }, { status }).then(
+          () => {
+            res.json({ result: true, message: "Delivery updated" });
+          }
+        );
       } else {
-        res.json({ result: false, error: "Cannot cancel this delivery" });
+        res.json({ result: false, error: "Cannot update this delivery" });
       }
     });
   });
