@@ -52,7 +52,7 @@ router.get("/meanRating/:pickerId", (req, res) => {
   const { pickerId } = req.params;
 
   Review.find({ pickerId }).then((reviews) => {
-    if (!reviews) {
+    if (reviews.length == 0) {
       res.json({ result: false, meanRating: 5 });
     } else {
       const meanRating =
